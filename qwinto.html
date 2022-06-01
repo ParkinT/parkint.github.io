@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<head>
+<title></title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+$(document).on('keyup change','input.score_pentagon',function(){
+$totalScore = $('div#score').find('#score_total');
+$individualScores = jQuery.makeArray( $('div#score').find('.score_pentagon'));
+$individualScores.push($('input#score_orange'));
+$individualScores.push($('input#score_yellow'));
+$individualScores.push($('input#score_purple'));
+
+$crossouts = $('div#crossout').find('input.xs')
+$numberOfXs = 0;
+$.each($crossouts, function(index, object) {
+  if ($(object).val()!='') {
+    $numberOfXs = $numberOfXs + 1;  
+  }
+});
+$scoreNegative = $('#score_negative');
+$scoreNegative.val(parseInt($numberOfXs)*5); //number of Xs times 5
+
+$totalScore.val('0');
+  $.each($individualScores,function(index,object){      
+    if($(object).val()!='')
+    {
+       $totalScore.val(parseInt($totalScore.val())+parseInt($(object).val()));
+console.log($(object).val());
+console.log($totalScore.val());
+    }
+  });
+  $totalScore.val(parseInt($totalScore.val())-parseInt($('#score_negative').val()));
+});
+</script>
+</head>
+<style>
+body {
+  margin: none;
+  padding: none;
+}
+
+input {
+  border: none;
+}
+
+.emphasis {  /* for pentagons */
+}
+
+div#orange input {
+  width: 12px;
+  height: 12px;
+  margin-top: 28px;
+  margin-left: 18px;
+}
+
+div#yellow input {
+  width: 12px;
+  height: 12px;
+  margin-top: 24px;
+  margin-left: 18px;
+}
+
+div#purple input {
+  width: 12px;
+  height: 12px;
+  margin-top: 24px;
+  margin-left: 18px;
+}
+
+.score_pentagon {
+  margin-top: 25px;
+  margin-left: 19px;
+  width: 10px;
+  height: 12px;
+}
+
+.xs {
+  font-weight: bold;
+  margin-top: 17px;
+  margin-left: 13px;
+  width: 15px;
+}
+
+#score_negative {
+  margin-left: 34px;
+  width: 10px;
+}
+
+#score_total {
+  width: 44px;
+  margin-left: 38px;
+}
+
+#score_orange, #score_yellow, #score_purple {
+  width: 19px;
+  border: none;
+  margin-top: 22px;
+}
+#score_orange {
+  margin-left: 16px;
+}
+#score_yellow {
+  margin-left: 16px;
+}
+#score_purple {
+  margin-left: 16px;
+}
+#orange {
+  background-image: url("./qwinto_orange.jpg");
+  width: 465px;
+  height: 55px;
+}
+#yellow {
+  background-image: url("./qwinto_yellow.jpg");
+  width: 465px;
+  height: 55px;
+}
+#purple {
+  background-image: url("./qwinto_purple.jpg");
+  width: 465px;
+  height: 55px;
+}
+#crossout {
+  background-image: url("./qwinto_x_area.jpg");
+  width: 465px;
+  height: 45px;
+}
+#score {
+  background-image: url("./qwinto_scorearea.jpg");
+  width: 465px;
+  height: 55px;
+}
+</style>
+<body>
+<div id="orange">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" style="visibility:hidden" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+</div>
+
+<div id="yellow">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" style="visibility:hidden" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+</div>
+
+<div id="purple">
+&nbsp;
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" style="visibility:hidden" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry emphasis" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+<input type="text" class="entry" pattern="[0-9]*" />
+</div>
+
+<div id="crossout">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="text" class="xs" pattern="X{1}" /> <input type="text" class="xs" pattern="X{1}" /> <input type="text" class="xs" pattern="X{1}" /> <input type="text" class="xs" pattern="X{1}" />
+</div>
+
+<div id="score">
+<input type="text" id="score_orange" class="two-digit" pattern="[0-9]*"  /> <input type="text" id="score_yellow" class="two-digit" /> <input type="text" id="score_purple" class="two-digit" />
+<span style="margin-left: 8px;" /><input type="text" class="score_pentagon" />
+<input type="text" id="score_pentagon1" class="score_pentagon" />
+<input type="text" id="score_pentagon2" class="score_pentagon" />
+<input type="text" id="score_pentagon3" class="score_pentagon" />
+<input type="text" id="score_pentagon4" class="score_pentagon" />
+<input type="text" id="score_negative" />
+<input type="text" id="score_total" />
+</div>
+</body>
