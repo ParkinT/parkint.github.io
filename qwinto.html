@@ -3,7 +3,9 @@
 <title></title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
-$(document).on('keyup change','input.score_pentagon',function(){
+$(document).on('keyup change','input.score_pentagon',function(){ calculateScore() } );
+
+function calculateScore() {
 $totalScore = $('div#score').find('#score_total');
 $individualScores = jQuery.makeArray( $('div#score').find('.score_pentagon'));
 $individualScores.push($('input#score_orange'));
@@ -30,7 +32,7 @@ console.log($totalScore.val());
     }
   });
   $totalScore.val(parseInt($totalScore.val())-parseInt($('#score_negative').val()));
-});
+};
 </script>
 </head>
 <style>
