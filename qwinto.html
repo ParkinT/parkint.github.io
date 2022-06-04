@@ -37,8 +37,7 @@ console.log($totalScore.val());
   $totalScore.val(parseInt($totalScore.val())-parseInt($('#score_negative').val()));
 };
   
-$('#crossout input.xs').focus(function() {
-  alert($(this));
+$('#crossout input').focus(function() {
   $(this).val('X');
 });
 </script>
