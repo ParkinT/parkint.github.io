@@ -36,6 +36,10 @@ console.log($totalScore.val());
   });
   $totalScore.val(parseInt($totalScore.val())-parseInt($('#score_negative').val()));
 };
+  
+$('input.xs').focus(function() {
+  $(this).val('X');
+});
 </script>
 </head>
 <style>
