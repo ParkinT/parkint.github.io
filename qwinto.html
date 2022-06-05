@@ -8,14 +8,11 @@ $(document).on('keyup change','#score_yellow',function(){ calculateScore() } );
 $(document).on('keyup change','#score_orange',function(){ calculateScore() } );
 $(document).on('keyup change','#score_purple',function(){ calculateScore() } );
   
-$('input.xs').focus(function() {
-  alert("FOCUS");
-//  alert($(this).checkValidity());
-/*
+$(document).on('focus', 'input.xs', function() {
   $(this).val('X');
   $(this).prop('disabled', true);
 });
-*/
+
 function calculateScore() {
 $totalScore = $('div#score').find('#score_total');
 $individualScores = jQuery.makeArray( $('div#score').find('.score_pentagon'));
