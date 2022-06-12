@@ -3,15 +3,56 @@
 <title>Interactive Qwinto Score Sheet</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
+const TOTAL_SCORE_BOXES = 9;
 $(document).on('keyup change','input.score_pentagon',function(){ calculateScore() } );
 $(document).on('keyup change','#score_yellow',function(){ calculateScore() } );
 $(document).on('keyup change','#score_orange',function(){ calculateScore() } );
 $(document).on('keyup change','#score_purple',function(){ calculateScore() } );
-  
+
 $(document).on('focus', 'input.xs', function() {
   $(this).val('X');
   $(this).prop('disabled', true);
 });
+
+function scoreit() {
+  $("#score_orange").val(get_score("orange"));
+  $("#score_yellow").val(get_score("yellow"));
+  $("#score_purple").val(get_score("purple"));
+/*
+  if ($("#yellow input[type=text]").eq(2).val() != "") && ($("#purple input[type=text]").eq(2).val() != "") {
+    $("#score_pentagon1").val( $("#orange input[type=text]").eq(1).val() );
+  }
+  if ($("#yellow input[type=text]").eq(5).val() != "") && ($("#purple input[type=text]").eq(6).val() != "") {
+    $("#score_pentagon2").val($("#orange input[type=text]").eq(4).val());
+  }
+  $("#score_pentagon3").val();
+  $("#score_pentagon4").val();
+*/
+  $("#score_btn").prop('value', "SCORED");
+}
+
+function get_score(score_row) {
+  var sum = 0;
+  var elmcount = 0;
+  var elmdef = "";
+  switch(score_row.toLowerCase()) {
+    case 'orange':
+      elmdef = "#orange input[type=text]";
+      break;
+    case 'yellow':
+      elmdef = "#yellow input[type=text]";
+      break;
+    case 'purple':
+      elmdef = "#purple input[type=text]";
+  }
+      $(elmdef).each(function() {
+         if (this.value != "") { elmcount +=1 }
+      });
+      var largest_value = ($(elmdef).get(-1).value);
+    if (elmcount >= TOTAL_SCORE_BOXES) { return largest_value }
+    return elmcount;
+}
+
 
 function calculateScore() {
 $totalScore = $('div#score').find('#score_total');
@@ -24,19 +65,17 @@ $crossouts = $('div#crossout').find('input.xs')
 $numberOfXs = 0;
 $.each($crossouts, function(index, object) {
   if ($(object).val()!='') {
-    $numberOfXs = $numberOfXs + 1;  
+    $numberOfXs = $numberOfXs + 1;
   }
 });
 $scoreNegative = $('#score_negative');
 $scoreNegative.val(parseInt($numberOfXs)*5); //number of Xs times 5
 
 $totalScore.val('0');
-  $.each($individualScores,function(index,object){      
+  $.each($individualScores,function(index,object){
     if($(object).val()!='')
     {
        $totalScore.val(parseInt($totalScore.val())+parseInt($(object).val()));
-console.log($(object).val());
-console.log($totalScore.val());
     }
   });
   $totalScore.val(parseInt($totalScore.val())-parseInt($('#score_negative').val()));
@@ -60,7 +99,7 @@ input {
 .spacer {
   width: 4px;
 }
-  
+
 div#orange input {
   margin-top: 30px;
 }
@@ -71,14 +110,14 @@ div#yellow input {
   width: 12px;
   height: 12px;
 }
-  
+
 div#orange input, div#purple input {
   margin-top: 24px;
   width: 12px;
   height: 12px;
   margin-left: 10px;
 }
-  
+
 div#purple input {
   margin-top: 22px;
   margin-left: 10px;
@@ -147,6 +186,12 @@ div#purple input {
   width: 468px;
   height: 55px;
 }
+
+#score_btn {
+  margin-left: 30%;
+  font-size: 130%;
+}
+
 </style>
 <body>
 <div id="orange">
@@ -168,7 +213,7 @@ div#purple input {
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry" maxlength="2" pattern="[0-9][1,2}" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" style="visibility:hidden" class="spacer" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
@@ -197,7 +242,9 @@ div#purple input {
 </div>
 
 <div id="score">
-<input type="text" id="score_orange" class="two-digit" pattern="[0-9]{1,2}" /> <input type="text" id="score_yellow" class="two-digit" pattern="[0-9]{1,2}" /> <input type="text" id="score_purple" class="two-digit" pattern="[0-9]{1,2}" />
+<input type="text" id="score_orange" class="two-digit" pattern="[0-9]{1,2}" />
+<input type="text" id="score_yellow" class="two-digit" pattern="[0-9]{1,2}" />
+<input type="text" id="score_purple" class="two-digit" pattern="[0-9]{1,2}" />
   <span style="margin-left: 4px;">&nbsp;</span><input type="text" class="score_pentagon" />
 <input type="text" id="score_pentagon1" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon2" maxlength="2" class="score_pentagon" />
@@ -205,5 +252,8 @@ div#purple input {
 <input type="text" id="score_pentagon4" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_negative" />
 <input type="text" id="score_total" pattern="[0-9]{1,4}" />
+</div>
+<div>
+<input id="score_btn" type="button" value="SCORE IT" onclick="scoreit();"  />
 </div>
 </body>
