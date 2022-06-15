@@ -4,6 +4,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
 const TOTAL_SCORE_BOXES = 9;
+const ZERO = "0";
 $(document).on('keyup change','input.score_pentagon',function(){ calculateScore() } );
 $(document).on('keyup change','#score_yellow',function(){ calculateScore() } );
 $(document).on('keyup change','#score_orange',function(){ calculateScore() } );
@@ -18,17 +19,77 @@ function scoreit() {
   $("#score_orange").val(get_score("orange"));
   $("#score_yellow").val(get_score("yellow"));
   $("#score_purple").val(get_score("purple"));
-/*
-  if ($("#yellow input[type=text]").eq(2).val() != "") && ($("#purple input[type=text]").eq(2).val() != "") {
-    $("#score_pentagon1").val( $("#orange input[type=text]").eq(1).val() );
-  }
-  if ($("#yellow input[type=text]").eq(5).val() != "") && ($("#purple input[type=text]").eq(6).val() != "") {
-    $("#score_pentagon2").val($("#orange input[type=text]").eq(4).val());
-  }
-  $("#score_pentagon3").val();
-  $("#score_pentagon4").val();
-*/
+  var pentagon_scores = score_pentagons();
+console.log(pentagon_scores);
+  $("#score_pentagon0").val(pentagon_scores[0]);
+  $("#score_pentagon1").val(pentagon_scores[1]);
+  $("#score_pentagon2").val(pentagon_scores[2]);
+  $("#score_pentagon3").val(pentagon_scores[3]);
+  $("#score_pentagon4").val(pentagon_scores[4]);
   $("#score_btn").prop('value', "SCORED");
+  calculateScore();
+}
+
+function score_pentagons() {
+  pentagon_scores_array = [];
+  var $orange_pentagons = jQuery.makeArray( $('#orange').find('.emphasis'));
+  var $yellow_pentagons = jQuery.makeArray( $('#yellow').find('.emphasis'));
+  var $purple_pentagons = jQuery.makeArray( $('#purple').find('.emphasis'));
+
+  $orange_inputs = jQuery.makeArray( $('#orange').find('.entry'));
+  var $orange_values = [];
+  $.each($orange_inputs, function(index, object) {
+    $orange_values.push($(object).val());
+  });
+  $yellow_inputs = jQuery.makeArray( $('#yellow').find('.entry'));
+  var $yellow_values = [];
+  $.each($yellow_inputs, function(index, object) {
+    $yellow_values.push($(object).val());
+  });
+  $purple_inputs = jQuery.makeArray( $('#purple').find('.entry'));
+  var $purple_values = [];
+  $.each($purple_inputs, function(index, object) {
+    $purple_values.push($(object).val());
+  });
+
+  // ORANGE
+  $.each($orange_pentagons,function(index, object) {
+    // yellow[2] & purple[3]
+    if (index == 0) {
+      if ($yellow_values[2] != "" && $purple_values[3] != "") {
+        pentagon_scores_array.push($(object).val());
+      } else pentagon_scores_array.push(ZERO);
+    }
+    //yellowi[5] and purple[6]
+    if (index == 1) {
+      if ($yellow_values[5] != "" && $purple_values[6] != "") {
+        pentagon_scores_array.push($(object).val());
+      } else pentagon_scores_array.push(ZERO);
+    }
+  });
+  // YELLOW
+  $.each($yellow_pentagons,function(index, object) {
+    //yellow[6] requires orange[5] - purple[7]
+      if ($orange_values[5] != "" && $purple_values[7] != "") {
+        pentagon_scores_array.push($(object).val());
+      } else pentagon_scores_array.push(ZERO);
+  });
+  // PURPLE
+  $.each($purple_pentagons,function(index, object) {
+    //purple[2] requires orange[0] - yellow[1]
+    if (index == 0) {
+      if ($yellow_values[1] != "" && $orange_values[0] != "") {
+        pentagon_scores_array.push($(object).val());
+      } else pentagon_scores_array.push(ZERO);
+    }
+    //purple[8] requires orange[6] - yellow[7]
+    if (index == 1) {
+      if ($yellow_values[7] != "" && $orange_values[6] != "") {
+        pentagon_scores_array.push($(object).val());
+      } else pentagon_scores_array.push(ZERO);
+    }
+  });
+  return pentagon_scores_array;
 }
 
 function get_score(score_row) {
@@ -45,7 +106,7 @@ function get_score(score_row) {
     case 'purple':
       elmdef = "#purple input[type=text]";
   }
-      $(elmdef).each(function() {
+      $(elmdef).each(function() { 
          if (this.value != "") { elmcount +=1 }
       });
       var largest_value = ($(elmdef).get(-1).value);
@@ -65,14 +126,14 @@ $crossouts = $('div#crossout').find('input.xs')
 $numberOfXs = 0;
 $.each($crossouts, function(index, object) {
   if ($(object).val()!='') {
-    $numberOfXs = $numberOfXs + 1;
+    $numberOfXs = $numberOfXs + 1;  
   }
 });
 $scoreNegative = $('#score_negative');
 $scoreNegative.val(parseInt($numberOfXs)*5); //number of Xs times 5
 
 $totalScore.val('0');
-  $.each($individualScores,function(index,object){
+  $.each($individualScores,function(index,object){      
     if($(object).val()!='')
     {
        $totalScore.val(parseInt($totalScore.val())+parseInt($(object).val()));
@@ -94,12 +155,13 @@ input {
 }
 
 .emphasis {  /* for pentagons */
+  font-weight: bolder;
 }
 
 .spacer {
   width: 4px;
 }
-
+  
 div#orange input {
   margin-top: 30px;
 }
@@ -110,14 +172,14 @@ div#yellow input {
   width: 12px;
   height: 12px;
 }
-
+  
 div#orange input, div#purple input {
   margin-top: 24px;
   width: 12px;
   height: 12px;
   margin-left: 10px;
 }
-
+  
 div#purple input {
   margin-top: 22px;
   margin-left: 10px;
@@ -200,7 +262,7 @@ div#purple input {
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{2}" />
 <input type="text" style="visibility:hidden" class="spacer" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
@@ -211,13 +273,13 @@ div#purple input {
 <div id="yellow">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" style="visibility:hidden" class="spacer" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 </div>
@@ -225,17 +287,16 @@ div#purple input {
 <div id="purple">
 &nbsp;
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry" maxlength="2" pattern="[0-9]{1.2}" />
 <input type="text" style="visibility:hidden" class="spacer" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" class="entry" maxlength="2" pattern="[0-9]{1.2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" class="entrY emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 </div>
-
 <div id="crossout">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="text" class="xs" /> <input type="text" class="xs" /> <input type="text" class="xs" /> <input type="text" class="xs" />
@@ -246,6 +307,7 @@ div#purple input {
 <input type="text" id="score_yellow" class="two-digit" pattern="[0-9]{1,2}" />
 <input type="text" id="score_purple" class="two-digit" pattern="[0-9]{1,2}" />
   <span style="margin-left: 4px;">&nbsp;</span><input type="text" class="score_pentagon" />
+<input type="text" id="score_pentagon0" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon1" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon2" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon3" maxlength="2" class="score_pentagon" />
