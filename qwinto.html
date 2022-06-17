@@ -159,7 +159,12 @@ input {
 }
 
 .spacer {
-  width: 4px;
+ background-color:transparent;
+ height:1px;
+ width:15px;
+}
+#purple .spacer {
+  width:8px;
 }
   
 div#orange input {
@@ -174,20 +179,22 @@ div#yellow input {
 }
   
 div#orange input, div#purple input {
-  margin-top: 24px;
   width: 12px;
   height: 12px;
   margin-left: 10px;
 }
-  
-div#purple input {
-  margin-top: 22px;
-  margin-left: 10px;
+
+div#orange input {
+  margin-top: 24px;
 }
 
+div#purple input {
+  margin-top: 20px;
+}
+  
 .score_pentagon {
   margin-top: 24px;
-  margin-left: 11px;
+  margin-left: 10px;
   width: 10px;
   height: 12px;
 }
@@ -195,8 +202,8 @@ div#purple input {
 .xs {
   font-weight: bold;
   margin-top: 17px;
-  margin-left: 6px;
-  width: 14px;
+  margin-left: 8px;
+  width: 11px;
 }
 
 #score_negative {
@@ -261,7 +268,7 @@ div#purple input {
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{2}" />
-<input type="text" style="visibility:hidden" class="spacer" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" disabled class="spacer" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
@@ -277,7 +284,7 @@ div#purple input {
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" style="visibility:hidden" class="spacer" pattern="[0-9]{1,2}" />
+<input type="text" disabled class="spacer" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
@@ -290,7 +297,7 @@ div#purple input {
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry emphasis" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
-<input type="text" style="visibility:hidden" class="spacer" maxlength="2" pattern="[0-9]{1,2}" />
+<input type="text" disabled class="spacer" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
 <input type="text" class="entry" maxlength="2" pattern="[0-9]{1,2}" />
@@ -306,8 +313,8 @@ div#purple input {
 <input type="text" id="score_orange" class="two-digit" pattern="[0-9]{1,2}" />
 <input type="text" id="score_yellow" class="two-digit" pattern="[0-9]{1,2}" />
 <input type="text" id="score_purple" class="two-digit" pattern="[0-9]{1,2}" />
-  <span style="margin-left: 4px;">&nbsp;</span><input type="text" class="score_pentagon" />
-<input type="text" id="score_pentagon0" maxlength="2" class="score_pentagon" />
+  <span style="margin-left: 4px;">&nbsp;</span>
+<input type="text" id="score_pentagon0"  class="score_pentagon" />
 <input type="text" id="score_pentagon1" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon2" maxlength="2" class="score_pentagon" />
 <input type="text" id="score_pentagon3" maxlength="2" class="score_pentagon" />
