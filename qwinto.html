@@ -13,6 +13,7 @@ $(document).on('keyup change','#score_purple',function(){ calculateScore() } );
 $(document).on('focus', 'input.xs', function() {
   $(this).val('X');
   $(this).prop('disabled', true);
+  $(this).blur();
 });
 
 function scoreit() {
